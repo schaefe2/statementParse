@@ -1,6 +1,6 @@
 import PyPDF2
 
-pdfFileObj = open('pdfs/statement1.pdf', 'rb')
+pdfFileObj = open('statementParse\pdfs\statement1.pdf', 'rb')
 
 pdfReader = PyPDF2.PdfReader(pdfFileObj)
 
@@ -11,8 +11,11 @@ for page in pdfReader.pages:
     inTrans = 0
     for line in lines:
         if line[0].isnumeric() and inTrans:
-            #transaction line
-            print(line)
+            txt = line.split(' ')
+            transactionDate = line[:5]
+            vendor = line[12:37].strip()
+            price = txt[-1]
+            print(f"{transactionDate} {vendor} {price}")
         elif line == "Purchases and Adjustments":
             inTrans = 1
         else:
